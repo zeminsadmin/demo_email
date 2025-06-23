@@ -10,6 +10,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
 from datetime import datetime
+from langdetect import detect
 
 load_dotenv()
 
@@ -75,16 +76,22 @@ def obtener_saludo_temporal():
     else:
         return "Buenas noches"
 
+def detectar_idioma(texto):
+    try:
+        return detect(texto)
+    except:
+        return "es"
+
 def generar_respuesta(cuerpo, nombre):
+    idioma = detectar_idioma(cuerpo)
     saludo = nombre if nombre else obtener_saludo_temporal()
-    prompt_sistema = (
-        "Eres un asistente corporativo de Zemins llamado Roberto Martínez. Tu tarea es responder "
-        "amablemente a correos con fines comerciales, rechazando su propuesta de forma profesional, "
-        "pero dejando la puerta abierta a futuras colaboraciones. Si tienes el nombre del remitente, salúdalo por su nombre; "
-        "si no, utiliza un saludo apropiado como buenos días, buenas tardes o buenas noches. "
-        "Siempre debes hablar en primera persona del plural (usamos, estamos, creemos, etc.). "
-        "Usa párrafos separados, claros y cálidos. No incluyas firma."
-    )
+
+    prompts = {
+        "es": "Eres un asistente corporativo de Zemins llamado Roberto Martínez. Tu tarea es responder amablemente a correos con fines comerciales, rechazando su propuesta de forma profesional, pero dejando la puerta abierta a futuras colaboraciones. Si tienes el nombre del remitente, salúdalo por su nombre; si no, utiliza un saludo apropiado como buenos días, buenas tardes o buenas noches. Siempre debes hablar en primera persona del plural (usamos, estamos, creemos, etc.). Usa párrafos separados, claros y cálidos. No incluyas firma.",
+        "en": "You are a corporate assistant from Zemins named Roberto Martínez. Your task is to politely reply to commercial emails, professionally declining their proposal while leaving the door open for future collaboration. If you have the sender's name, greet them by name; otherwise, use a time-appropriate greeting like good morning, good afternoon, or good evening. Always speak in the first person plural (we believe, we are, we appreciate, etc.). Use clear, warm, separated paragraphs. Do not include a signature."
+    }
+
+    prompt_sistema = prompts.get(idioma, prompts["es"])
 
     mensaje_usuario = f"Saludo inicial: {saludo}\n\nCorreo:\n{cuerpo}"
 
@@ -111,7 +118,7 @@ def enviar_respuesta(remitente, asunto, respuesta, smtp_server):
         <tr>
           <td style="vertical-align: middle; padding-right: 15px;">
             <p style="margin: 0; font-size: 15px;"><strong style='color: #000000;'>Roberto Martínez</strong></p>
-            <p style="margin: 2px 0 0 0; font-size: 13px;" style='color: #000000;'>Departamento Comercial</p>
+            <p style="margin: 2px 0 0 0; font-size: 13px; color: #000000;">Departamento Comercial</p>
             <p style="margin: 2px 0 0 0; font-size: 13px;"><a href='http://www.zemins.com' style='color: #1a0dab; text-decoration: none;'>www.zemins.com</a></p>
             <p style="margin: 6px 0 0 0; font-size: 13px;">
               <a href='https://linkedin.com/company/zemins' style='margin-right: 10px; text-decoration: none;'><img src='https://cdn-icons-png.flaticon.com/24/145/145807.png' alt='LinkedIn' style='vertical-align: middle;'></a>
@@ -129,7 +136,7 @@ def enviar_respuesta(remitente, asunto, respuesta, smtp_server):
 
     respuesta_html = respuesta.replace('\n', '<br>')
     html = f"""
-    <html>
+    <html lang="es">
       <body style="line-height: 1.4; font-family: Arial, sans-serif; font-size: 15px; color: #333;">
         {respuesta_html}
         {firma_html}
@@ -147,6 +154,11 @@ def enviar_respuesta(remitente, asunto, respuesta, smtp_server):
         mensaje_respuesta.attach(imagen)
 
     smtp_server.sendmail(EMAIL_USER, remitente, mensaje_respuesta.as_string())
+
+    raw = mensaje_respuesta.as_bytes()
+    with conectar_imap() as imap:
+        imap.append('INBOX.Sent', '', imaplib.Time2Internaldate(time.time()), raw)
+
     print(f"[OK] Respuesta enviada a {remitente}")
 
 def procesar_correos():
