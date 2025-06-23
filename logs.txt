@@ -1,0 +1,36 @@
+[2025-06-22 11:54:14] 🔎 Revisando nuevos correos...
+[2025-06-22 11:54:14] 📩 Correo de: jenntamera3@gmail.com | Asunto: Can I get your approval for these Proposal?
+[2025-06-22 11:54:16] 🧠 Respuesta generada por IA:
+[2025-06-22 11:54:16] Hi Jenny,
+
+Thank you for reaching out and for your kind words about our website. We appreciate your interest in collaborating with us to enhance its visual appeal. However, at this moment, we are not considering any changes to our website design. We will keep your contact information for any future projects or considerations.
+
+We wish you the best of luck with your designing and development services. Feel free to stay in touch for any future opportunities.
+
+Warm regards,
+
+[Your Name]
+Zemins Team
+
+<img src="imagen_firma_zemins.png" alt="Zemins Logo">
+
+[2025-06-22 11:57:22] 🔎 Revisando nuevos correos...
+[2025-06-22 11:57:22] 📩 Correo de: jorge.chavescristobal@gmail.com | Asunto: Nuevas TVS
+[2025-06-22 11:57:24] 🧠 Respuesta generada por IA:
+[2025-06-22 11:57:24] Estimado/a,
+
+Agradecemos tu propuesta, sin embargo, en este momento nuestra empresa no se encuentra en búsqueda de adquirir nuevas televisiones. Apreciamos tu interés en ofrecernos tus productos y te deseamos mucho éxito en tus ventas.
+
+Quedamos a tu disposición para futuras oportunidades de colaboración.
+
+Saludos cordiales,
+
+[Nombre]
+Asistente Virtual de Zemins
+
+<img src="https://tu-logo.com/logo.png" alt="Logo de Zemins">
+
+[2025-06-22 11:57:25] ✅ Respuesta enviada a jorge.chavescristobal@gmail.com
+[2025-06-22 11:57:25] ⚠️ Error al guardar en '(\HasNoChildren \UnMarked \Sent) "." INBOX.Sent': APPEND command error: BAD [b'Error in IMAP command APPEND: Invalid arguments (0.001 + 0.000 secs).']
+[2025-06-22 11:57:25] ⏳ Esperando 5 minutos...
+
